@@ -1,0 +1,25 @@
+Order controller:
+ @TimeLimiter(name = "inventory")
+    public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest) {
+        return CompletableFuture.supplyAsync(() -> orderService.placeOrder(orderRequest));
+    }
+
+    public CompletableFuture<String> fallBackMethod(OrderRequest orderRequest, RuntimeException runtimeException) {
+        return CompletableFuture.supplyAsync(() -> "Something went wrong, try again later");
+    }
+	
+retrier:
+@Retry(name = "inventory")
+
+Order service:
+return String
+
+Inventory service:
+ 
+        log.info("Waiting");
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        log.info("Stop");
